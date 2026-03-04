@@ -41,15 +41,9 @@ int main()
             cin >> ds[i].a >> ds[i].b >> ds[i].c;
         }
         vectorlor AB, AC, AD;
-        AB.a = ds[0].a - ds[1].a;
-        AB.b = ds[0].b - ds[1].b;
-        AB.c = ds[0].c - ds[1].c;
-        AC.a = ds[0].a - ds[2].a;
-        AC.b = ds[0].b - ds[2].b;
-        AC.c = ds[0].c - ds[2].c;
-        AD.a = ds[0].a - ds[3].a;
-        AD.b = ds[0].b - ds[3].b;
-        AD.c = ds[0].c - ds[3].c;
+        AB = {ds[0].a - ds[1].a, ds[0].b - ds[1].b, ds[0].c - ds[1].c};
+        AC = {ds[0].a - ds[2].a, ds[0].b - ds[2].b, ds[0].c - ds[2].c};
+        AD = {ds[0].a - ds[3].a, ds[0].b - ds[3].b, ds[0].c - ds[3].c};
         if ((AB * AC) + AD == 0)
         {
             cout << "YES\n";
