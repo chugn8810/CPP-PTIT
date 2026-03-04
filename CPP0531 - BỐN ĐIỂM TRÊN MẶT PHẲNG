@@ -1,0 +1,62 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <set>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+struct toado
+{
+    double a, b, c;
+};
+struct vectorlor
+{
+    double a, b, c;
+    friend vectorlor operator*(const vectorlor so1, const vectorlor so2)
+    {
+        vectorlor res;
+        res.a = so1.b * so2.c - so1.c * so2.b;
+        res.b = so1.c * so2.a - so1.a * so2.c;
+        res.c = so1.a * so2.b - so1.b * so2.a;
+        return res;
+    }
+    double operator+(const vectorlor so1)
+    {
+        return so1.a * this->a + so1.b * this->b + so1.c * this->c;
+    }
+};
+typedef struct vectorlor vectorlor;
+typedef struct toado toado;
+int main()
+{
+
+    int m;
+    cin >> m;
+    while (m--)
+    {
+        toado ds[4];
+        for (int i = 0; i < 4; i++)
+        {
+            cin >> ds[i].a >> ds[i].b >> ds[i].c;
+        }
+        vectorlor AB, AC, AD;
+        AB.a = ds[0].a - ds[1].a;
+        AB.b = ds[0].b - ds[1].b;
+        AB.c = ds[0].c - ds[1].c;
+        AC.a = ds[0].a - ds[2].a;
+        AC.b = ds[0].b - ds[2].b;
+        AC.c = ds[0].c - ds[2].c;
+        AD.a = ds[0].a - ds[3].a;
+        AD.b = ds[0].b - ds[3].b;
+        AD.c = ds[0].c - ds[3].c;
+        if ((AB * AC) + AD == 0)
+        {
+            cout << "YES\n";
+        }
+        else
+        {
+            cout << "NO\n";
+        }
+    }
+}
