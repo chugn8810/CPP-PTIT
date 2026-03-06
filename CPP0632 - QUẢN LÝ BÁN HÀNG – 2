@@ -1,0 +1,152 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <set>
+#include <stdbool.h>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+using namespace std;
+class MatHang;
+class KhachHang;
+class HoaDon;
+map<string, MatHang> mp2;
+KhachHang *contro1;
+MatHang *contro2;
+int num1 = 1, num2 = 1, num3 = 1;
+class KhachHang
+{
+private:
+    string makh, tenkh, gioitinh, ngaysinh, diachi;
+
+public:
+    friend class HoaDon;
+    friend istream &operator>>(istream &in, HoaDon &a);
+    friend ostream &operator<<(ostream &out, HoaDon a);
+    friend istream &operator>>(istream &in, KhachHang &a)
+    {
+        if (num1 == 1)
+            contro1 = &a;
+        if (num1 <= 9)
+            a.makh = "KH00";
+        else
+            a.makh = "KH0";
+        a.makh += to_string(num1);
+        num1++;
+        scanf("\n");
+        getline(in, a.tenkh);
+        getline(in, a.gioitinh);
+        getline(in, a.ngaysinh);
+        getline(in, a.diachi);
+        return in;
+    }
+};
+class MatHang
+{
+private:
+    string mah, tenh, donvi;
+    long long mua, ban;
+
+public:
+    friend class HoaDon;
+    friend istream &operator>>(istream &in, HoaDon &a);
+    friend ostream &operator<<(ostream &out, HoaDon a);
+    friend istream &operator>>(istream &in, MatHang &a)
+    {
+        if (num2 == 1)
+            contro2 = &a;
+        if (num2 <= 9)
+            a.mah = "MH00";
+        else
+            a.mah = "MH0";
+        a.mah += to_string(num2);
+        num2++;
+        scanf("\n");
+        getline(in, a.tenh);
+        getline(in, a.donvi);
+        cin >> a.mua >> a.ban;
+        mp2[a.mah] = a;
+        return in;
+    }
+};
+
+class HoaDon
+{
+private:
+    string mahd, makhref, mahref;
+    string tenkh, diachi, donvi, tenh;
+    long long sl, tongtien, loinhuan;
+
+public:
+    friend bool check(HoaDon a, HoaDon b);
+    friend istream &operator>>(istream &in, HoaDon &a)
+    {
+
+        if (num3 <= 9)
+            a.mahd = "HD00";
+        else if (num3 <= 99)
+            a.mahd = "HD0";
+        else
+            a.mahd = "HD";
+        a.mahd += to_string(num3);
+        num3++;
+        in.ignore();
+        in >> a.makhref >> a.mahref >> a.sl;
+        for (int i = 0; i < num1; i++)
+        {
+            if (contro1[i].makh == a.makhref)
+            {
+                a.tenkh = contro1[i].tenkh;
+                a.diachi = contro1[i].diachi;
+            }
+        }
+        for (int i = 0; i < num2; i++)
+        {
+            if (contro2[i].mah == a.mahref)
+            {
+                a.tenh = contro2[i].tenh;
+                a.donvi = contro2[i].donvi;
+            }
+        }
+        a.tongtien = a.sl * mp2[a.mahref].ban;
+        a.loinhuan = a.tongtien - (a.sl * mp2[a.mahref].mua);
+        return in;
+    }
+    friend void sapxep(HoaDon dshd[], int k);
+    friend ostream &operator<<(ostream &out, HoaDon a)
+    {
+        out << a.mahd << " " << a.tenkh << " " << a.diachi << " " << a.tenh << " ";
+        out << a.sl << " " << a.tongtien << " " << a.loinhuan << endl;
+        return out;
+    }
+};
+bool check(HoaDon a, HoaDon b)
+{
+    if (a.loinhuan >= b.loinhuan)
+        return true;
+    return false;
+}
+void sapxep(HoaDon dshd[], int k)
+{
+    sort(dshd, dshd + k, check);
+}
+int main()
+{
+    KhachHang dskh[25];
+    MatHang dsmh[45];
+    HoaDon dshd[105];
+    int N, M, K, i;
+    cin >> N;
+    for (i = 0; i < N; i++)
+        cin >> dskh[i];
+    cin >> M;
+    for (i = 0; i < M; i++)
+        cin >> dsmh[i];
+    cin >> K;
+    for (i = 0; i < K; i++)
+        cin >> dshd[i];
+    sapxep(dshd, K);
+    for (i = 0; i < K; i++)
+        cout << dshd[i];
+    return 0;
+}
