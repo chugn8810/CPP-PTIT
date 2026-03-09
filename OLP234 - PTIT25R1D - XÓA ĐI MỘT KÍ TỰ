@@ -1,0 +1,36 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <set>
+#include <sstream>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+#include <fstream>
+using namespace std;
+int main()
+{
+    long long m, dem = 0, count = 1;
+    cin >> m;
+    map<string, int> mp;
+    string s;
+    cin >> s;
+    for (int i = 1; i < m; i++)
+    {
+        if (s[i] == s[i - 1])
+        {
+            ++count;
+        }
+        else
+        {
+            if (count > 1)
+                dem += (count * (count - 1)) / 2;
+            count = 1;
+        }
+    }
+    if (count > 1)
+    {
+        dem += (count * (count - 1)) / 2;
+    }
+    cout << dem;
+}
