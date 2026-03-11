@@ -1,0 +1,33 @@
+#include <iostream>
+#include <string>
+#include <map>
+#include <set>
+#include <sstream>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+#include <fstream>
+using namespace std;
+int main()
+{
+    int m;
+    cin >> m;
+    while (m--)
+    {
+        string s1;
+        long long dem = 0;
+        cin >> s1;
+        for (int i = 0; i < s1.size(); i++)
+        {
+            long long mod3 = 0, mod8 = 0;
+            for (int j = i; j < s1.size(); j++)
+            {
+                mod3 = (mod3 * 10 + (s1[j] - '0')) % 3;
+                mod8 = (mod8 * 10 + (s1[j] - '0')) % 8;
+                if (mod8 == 0 && mod3 != 0)
+                    ++dem;
+            }
+        }
+        cout << dem << endl;
+    }
+}
