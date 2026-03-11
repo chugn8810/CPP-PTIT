@@ -1,0 +1,41 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <map>
+#include <set>
+using namespace std;
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        long long m, n, p = 0, q = 0, kq = 0;
+        cin >> m >> n;
+        int res[100][100] = {0};
+        vector<vector<int>> a(m, vector<int>(n)), b(3, vector<int>(3));
+        for (auto &i : a)
+            for (auto &j : i)
+                cin >> j;
+        for (auto &i : b)
+            for (auto &j : i)
+                cin >> j;
+        for (int k = 0; k < m - 2; k++)
+        {
+            for (int c = 0; c < n - 2; c++)
+            {
+                q = 0;
+                int tmp = 0;
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        tmp += (a[k + i][c + j] * b[i][j]);
+                    }
+                }
+                kq += tmp;
+            }
+        }
+        cout << kq << endl;
+    }
+}
