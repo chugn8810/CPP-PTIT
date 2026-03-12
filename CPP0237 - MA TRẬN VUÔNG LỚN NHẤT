@@ -1,0 +1,58 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <set>
+#include <map>
+using namespace std;
+int a, b;
+vector<vector<char>> matran(25, vector<char>(25));
+int xuly(int x, int y, int k)
+{
+    for (int i = x; i < x + k; i++)
+    {
+        if (matran[i][y] == 'O' || matran[i][y + k - 1] == 'O')
+            return 0;
+    }
+    for (int i = y; i < y + k; i++)
+    {
+        if (matran[x][i] == 'O' || matran[x + k - 1][i] == 'O')
+            return 0;
+    }
+    return 1;
+}
+int main()
+{
+    int m;
+    cin >> m;
+    while (m--)
+    {
+        cin >> a;
+        for (int i = 0; i < a; i++)
+        {
+            for (int j = 0; j < a; j++)
+            {
+                cin >> matran[i][j];
+            }
+        }
+        for (int c = a; c >= 1; c--)
+        {
+            int check = 0;
+            for (int i = 0; i <= a - c; i++)
+            {
+                for (int j = 0; j <= a - c; j++)
+                {
+                    if (xuly(i, j, c))
+                    {
+                        check = 1;
+                        break;
+                    }
+                }
+            }
+            if (check == 1)
+            {
+                cout << c << endl;
+                break;
+            }
+        }
+    }
+}
