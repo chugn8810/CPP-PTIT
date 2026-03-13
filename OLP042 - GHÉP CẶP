@@ -1,0 +1,31 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <stack>
+using namespace std;
+const int MAXN = 1000005;
+int vitri[MAXN] = {0};
+void sang()
+{
+    for (int i = 1; i < MAXN; i++)
+    {
+        for (int j = i; j < MAXN; j += i)
+        {
+            vitri[j]++;
+        }
+    }
+}
+int main()
+{
+    sang();
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        long long n, sum = 0;
+        cin >> n;
+        cout << vitri[n] << endl;
+    }
+}
