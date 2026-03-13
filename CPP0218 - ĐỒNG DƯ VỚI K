@@ -1,0 +1,52 @@
+#include <iostream>
+#include <algorithm>
+#include <vector>
+#include <iomanip>
+#include <map>
+#include <stack>
+using namespace std;
+const int MAXN = 1000005;
+int vitri[MAXN] = {0};
+int ucln(int a, int b)
+{
+    while (b != 0)
+    {
+        int tmp = a % b;
+        a = b;
+        b = tmp;
+    }
+    return a;
+}
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        int m, mim = 1e9;
+        cin >> m;
+        vector<int> a(m);
+        for (int i = 0; i < m; i++)
+        {
+            cin >> a[i];
+            mim = min(a[i], mim);
+        }
+        int tmp = a[0] - mim, kq = tmp, count = 0;
+        for (int i = 1; i < m; i++)
+        {
+            kq = ucln(kq, a[i] - mim);
+        }
+        for (int i = 1; i * i <= kq; i++)
+        {
+            if (kq % i == 0)
+            {
+                count++;
+            }
+            if (kq % (kq / i) == 0 && i != (kq / i))
+            {
+                count++;
+            }
+        }
+        cout << count << endl;
+    }
+}
