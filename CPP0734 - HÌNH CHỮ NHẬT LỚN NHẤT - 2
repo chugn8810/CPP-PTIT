@@ -1,0 +1,86 @@
+#include <iostream>
+#include <algorithm>
+#include <stdbool.h>
+#include <vector>
+#include <set>
+#include <stack>
+#include <map>
+#include <cstring>
+#include <utility>
+using namespace std;
+int ketqua(vector<int> &matran)
+{
+    stack<int> s;
+    int maxkq = 0;
+    for (int i = 0; i < matran.size(); i++)
+    {
+        if (s.empty() || matran[s.top()] <= matran[i])
+        {
+            s.push(i);
+        }
+        while (!s.empty() && matran[s.top()] >= matran[i])
+        {
+            int h = matran[s.top()], w;
+            s.pop();
+            if (s.empty())
+            {
+                w = i;
+            }
+            else
+            {
+                w = i - s.top() - 1;
+            }
+            maxkq = max(maxkq, w * h);
+        }
+        s.push(i);
+    }
+    while (!s.empty())
+    {
+        int h = matran[s.top()], w;
+        s.pop();
+        if (s.empty())
+        {
+            w = matran.size();
+        }
+        else
+        {
+            w = matran.size() - s.top() - 1;
+        }
+        maxkq = max(maxkq, w * h);
+    }
+    return maxkq;
+}
+int main()
+{
+    int m;
+    cin >> m;
+    while (m--)
+    {
+        int a, b;
+        cin >> a >> b;
+        vector<vector<int>> matran(a, vector<int>(b));
+        for (auto &i : matran)
+        {
+            for (auto &j : i)
+            {
+                cin >> j;
+            }
+        }
+        for (int i = 0; i < a; i++)
+        {
+            for (int j = 0; j < b; j++)
+            {
+                if (i - 1 >= 0 && matran[i][j] == 1)
+                {
+                    matran[i][j] = matran[i - 1][j] + 1;
+                }
+            }
+        }
+        int maxx = 0;
+        for (int i = 0; i < a; i++)
+        {
+            maxx = max(ketqua(matran[i]), maxx);
+        }
+        cout << maxx << endl;
+    }
+}
