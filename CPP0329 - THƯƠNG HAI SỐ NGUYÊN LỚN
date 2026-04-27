@@ -1,0 +1,114 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+using namespace std;
+bool sosanh(string s1, string s2)
+{
+    if (s1.size() != s2.size())
+    {
+        return s1.size() > s2.size();
+    }
+    return s1 > s2;
+}
+string tru(string s2, string du)
+{
+    string conlai;
+    int nho = 0;
+    while (s2.size() < du.size())
+        s2 = "0" + s2;
+    for (int i = du.size() - 1; i >= 0; i--)
+    {
+        int sum;
+        int so1 = du[i] - '0', so2 = s2[i] - '0' + nho;
+        if (so1 >= so2)
+        {
+            sum = so1 - so2;
+            nho = 0;
+        }
+        else
+        {
+            sum = (so1 + 10) - so2;
+            nho = 1;
+        }
+        conlai += (sum + '0');
+    }
+    reverse(conlai.begin(), conlai.end());
+    while (conlai.size() > 1 && conlai[0] == '0')
+    {
+        conlai.erase(0, 1);
+    }
+    return conlai;
+}
+string nhan(int i, string s2)
+{
+    int nho = 0;
+    string ketqua;
+    for (int j = s2.size() - 1; j >= 0; j--)
+    {
+        int tmp = i * (s2[j] - '0') + nho;
+        char them = (tmp % 10) + '0';
+        nho = tmp / 10;
+        ketqua.push_back(them);
+    }
+    if (nho > 0)
+        ketqua.push_back(nho + '0');
+    reverse(ketqua.begin(), ketqua.end());
+    return ketqua;
+}
+void xuly(string &s1, string &s2)
+{
+    if (s1 == "0")
+    {
+        cout << 0 << endl;
+        return;
+    }
+    if (sosanh(s2, s1))
+    {
+        cout << 0 << endl;
+        return;
+    }
+    string du, ketqua;
+    for (int i = 0; i < s1.size(); i++)
+    {
+        du.push_back(s1[i]);
+        string sonhan;
+        while (du.size() > 1 && du[0] == '0') du.erase(0, 1);
+        if (sosanh(s2, du))
+            ketqua.push_back('0');
+        else
+        {
+            char tmp2;
+            for (int j = 1; j <= 9; j++)
+            {
+                string tmp1;
+                tmp1 = nhan(j, s2);
+                if (sosanh(tmp1, du))
+                {
+                    break;
+                }
+                sonhan = tmp1;
+                tmp2 = j + '0';
+            }
+            ketqua.push_back(tmp2);
+            du = tru(sonhan, du);
+            if (i >= s1.size())
+                break;
+        }
+    }
+    while (ketqua.size() > 1 && ketqua[0] == '0')
+        ketqua.erase(0, 1);
+    cout << ketqua << endl;
+    return;
+}
+int main()
+{
+    int t;
+    cin >> t;
+    while (t--)
+    {
+        string m, n;
+        cin >> m >> n;
+        xuly(m, n);
+    }
+}
